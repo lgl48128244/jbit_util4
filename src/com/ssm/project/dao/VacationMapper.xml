@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.project.dao.VacationMapper" >
+  <resultMap id="BaseResultMap" type="com.ssm.project.model.Vacation" >
+    <id column="v_id" property="vId" jdbcType="VARCHAR" />
+    <result column="v_name" property="vName" jdbcType="VARCHAR" />
+    <result column="v_starttime" property="vStarttime" jdbcType="VARCHAR" />
+    <result column="v_endtime" property="vEndtime" jdbcType="VARCHAR" />
+    <result column="v_days" property="vDays" jdbcType="VARCHAR" />
+    <result column="v_reason" property="vReason" jdbcType="VARCHAR" />
+    <result column="v_checker" property="vChecker" jdbcType="VARCHAR" />
+    <result column="v_state" property="vState" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    v_id, v_name, v_starttime, v_endtime, v_days, v_reason, v_checker, v_state
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ssm.project.model.VacationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_vacation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_vacation
+    where v_id = #{vId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_vacation
+    where v_id = #{vId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssm.project.model.VacationExample" >
+    delete from t_vacation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.project.model.Vacation" >
+    insert into t_vacation (v_id, v_name, v_starttime, 
+      v_endtime, v_days, v_reason, 
+      v_checker, v_state)
+    values (#{vId,jdbcType=VARCHAR}, #{vName,jdbcType=VARCHAR}, #{vStarttime,jdbcType=VARCHAR}, 
+      #{vEndtime,jdbcType=VARCHAR}, #{vDays,jdbcType=VARCHAR}, #{vReason,jdbcType=VARCHAR}, 
+      #{vChecker,jdbcType=VARCHAR}, #{vState,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.project.model.Vacation" >
+    insert into t_vacation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="vId != null" >
+        v_id,
+      </if>
+      <if test="vName != null" >
+        v_name,
+      </if>
+      <if test="vStarttime != null" >
+        v_starttime,
+      </if>
+      <if test="vEndtime != null" >
+        v_endtime,
+      </if>
+      <if test="vDays != null" >
+        v_days,
+      </if>
+      <if test="vReason != null" >
+        v_reason,
+      </if>
+      <if test="vChecker != null" >
+        v_checker,
+      </if>
+      <if test="vState != null" >
+        v_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="vId != null" >
+        #{vId,jdbcType=VARCHAR},
+      </if>
+      <if test="vName != null" >
+        #{vName,jdbcType=VARCHAR},
+      </if>
+      <if test="vStarttime != null" >
+        #{vStarttime,jdbcType=VARCHAR},
+      </if>
+      <if test="vEndtime != null" >
+        #{vEndtime,jdbcType=VARCHAR},
+      </if>
+      <if test="vDays != null" >
+        #{vDays,jdbcType=VARCHAR},
+      </if>
+      <if test="vReason != null" >
+        #{vReason,jdbcType=VARCHAR},
+      </if>
+      <if test="vChecker != null" >
+        #{vChecker,jdbcType=VARCHAR},
+      </if>
+      <if test="vState != null" >
+        #{vState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.project.model.VacationExample" resultType="java.lang.Integer" >
+    select count(*) from t_vacation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_vacation
+    <set >
+      <if test="record.vId != null" >
+        v_id = #{record.vId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vName != null" >
+        v_name = #{record.vName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vStarttime != null" >
+        v_starttime = #{record.vStarttime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vEndtime != null" >
+        v_endtime = #{record.vEndtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vDays != null" >
+        v_days = #{record.vDays,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vReason != null" >
+        v_reason = #{record.vReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vChecker != null" >
+        v_checker = #{record.vChecker,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vState != null" >
+        v_state = #{record.vState,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_vacation
+    set v_id = #{record.vId,jdbcType=VARCHAR},
+      v_name = #{record.vName,jdbcType=VARCHAR},
+      v_starttime = #{record.vStarttime,jdbcType=VARCHAR},
+      v_endtime = #{record.vEndtime,jdbcType=VARCHAR},
+      v_days = #{record.vDays,jdbcType=VARCHAR},
+      v_reason = #{record.vReason,jdbcType=VARCHAR},
+      v_checker = #{record.vChecker,jdbcType=VARCHAR},
+      v_state = #{record.vState,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.project.model.Vacation" >
+    update t_vacation
+    <set >
+      <if test="vName != null" >
+        v_name = #{vName,jdbcType=VARCHAR},
+      </if>
+      <if test="vStarttime != null" >
+        v_starttime = #{vStarttime,jdbcType=VARCHAR},
+      </if>
+      <if test="vEndtime != null" >
+        v_endtime = #{vEndtime,jdbcType=VARCHAR},
+      </if>
+      <if test="vDays != null" >
+        v_days = #{vDays,jdbcType=VARCHAR},
+      </if>
+      <if test="vReason != null" >
+        v_reason = #{vReason,jdbcType=VARCHAR},
+      </if>
+      <if test="vChecker != null" >
+        v_checker = #{vChecker,jdbcType=VARCHAR},
+      </if>
+      <if test="vState != null" >
+        v_state = #{vState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where v_id = #{vId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.project.model.Vacation" >
+    update t_vacation
+    set v_name = #{vName,jdbcType=VARCHAR},
+      v_starttime = #{vStarttime,jdbcType=VARCHAR},
+      v_endtime = #{vEndtime,jdbcType=VARCHAR},
+      v_days = #{vDays,jdbcType=VARCHAR},
+      v_reason = #{vReason,jdbcType=VARCHAR},
+      v_checker = #{vChecker,jdbcType=VARCHAR},
+      v_state = #{vState,jdbcType=INTEGER}
+    where v_id = #{vId,jdbcType=VARCHAR}
+  </update>
+</mapper>

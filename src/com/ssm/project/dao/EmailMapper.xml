@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.project.dao.EmailMapper" >
+  <resultMap id="BaseResultMap" type="com.ssm.project.model.Email" >
+    <id column="e_id" property="eId" jdbcType="VARCHAR" />
+    <result column="e_title" property="eTitle" jdbcType="VARCHAR" />
+    <result column="e_receive" property="eReceive" jdbcType="VARCHAR" />
+    <result column="e_sender" property="eSender" jdbcType="VARCHAR" />
+    <result column="e_isread" property="eIsread" jdbcType="INTEGER" />
+    <result column="e_isdel" property="eIsdel" jdbcType="INTEGER" />
+    <result column="e_receivetime" property="eReceivetime" jdbcType="TIMESTAMP" />
+    <result column="e_upfile" property="eUpfile" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.ssm.project.model.Email" extends="BaseResultMap" >
+    <result column="e_content" property="eContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    e_id, e_title, e_receive, e_sender, e_isread, e_isdel, e_receivetime, e_upfile
+  </sql>
+  <sql id="Blob_Column_List" >
+    e_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.ssm.project.model.EmailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_email
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ssm.project.model.EmailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_email
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_email
+    where e_id = #{eId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_email
+    where e_id = #{eId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssm.project.model.EmailExample" >
+    delete from t_email
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.project.model.Email" >
+    insert into t_email (e_id, e_title, e_receive, 
+      e_sender, e_isread, e_isdel, 
+      e_receivetime, e_upfile, e_content
+      )
+    values (#{eId,jdbcType=VARCHAR}, #{eTitle,jdbcType=VARCHAR}, #{eReceive,jdbcType=VARCHAR}, 
+      #{eSender,jdbcType=VARCHAR}, #{eIsread,jdbcType=INTEGER}, #{eIsdel,jdbcType=INTEGER}, 
+      #{eReceivetime,jdbcType=TIMESTAMP}, #{eUpfile,jdbcType=VARCHAR}, #{eContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.project.model.Email" >
+    insert into t_email
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="eId != null" >
+        e_id,
+      </if>
+      <if test="eTitle != null" >
+        e_title,
+      </if>
+      <if test="eReceive != null" >
+        e_receive,
+      </if>
+      <if test="eSender != null" >
+        e_sender,
+      </if>
+      <if test="eIsread != null" >
+        e_isread,
+      </if>
+      <if test="eIsdel != null" >
+        e_isdel,
+      </if>
+      <if test="eReceivetime != null" >
+        e_receivetime,
+      </if>
+      <if test="eUpfile != null" >
+        e_upfile,
+      </if>
+      <if test="eContent != null" >
+        e_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="eId != null" >
+        #{eId,jdbcType=VARCHAR},
+      </if>
+      <if test="eTitle != null" >
+        #{eTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="eReceive != null" >
+        #{eReceive,jdbcType=VARCHAR},
+      </if>
+      <if test="eSender != null" >
+        #{eSender,jdbcType=VARCHAR},
+      </if>
+      <if test="eIsread != null" >
+        #{eIsread,jdbcType=INTEGER},
+      </if>
+      <if test="eIsdel != null" >
+        #{eIsdel,jdbcType=INTEGER},
+      </if>
+      <if test="eReceivetime != null" >
+        #{eReceivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eUpfile != null" >
+        #{eUpfile,jdbcType=VARCHAR},
+      </if>
+      <if test="eContent != null" >
+        #{eContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.project.model.EmailExample" resultType="java.lang.Integer" >
+    select count(*) from t_email
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_email
+    <set >
+      <if test="record.eId != null" >
+        e_id = #{record.eId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eTitle != null" >
+        e_title = #{record.eTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eReceive != null" >
+        e_receive = #{record.eReceive,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eSender != null" >
+        e_sender = #{record.eSender,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eIsread != null" >
+        e_isread = #{record.eIsread,jdbcType=INTEGER},
+      </if>
+      <if test="record.eIsdel != null" >
+        e_isdel = #{record.eIsdel,jdbcType=INTEGER},
+      </if>
+      <if test="record.eReceivetime != null" >
+        e_receivetime = #{record.eReceivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.eUpfile != null" >
+        e_upfile = #{record.eUpfile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eContent != null" >
+        e_content = #{record.eContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_email
+    set e_id = #{record.eId,jdbcType=VARCHAR},
+      e_title = #{record.eTitle,jdbcType=VARCHAR},
+      e_receive = #{record.eReceive,jdbcType=VARCHAR},
+      e_sender = #{record.eSender,jdbcType=VARCHAR},
+      e_isread = #{record.eIsread,jdbcType=INTEGER},
+      e_isdel = #{record.eIsdel,jdbcType=INTEGER},
+      e_receivetime = #{record.eReceivetime,jdbcType=TIMESTAMP},
+      e_upfile = #{record.eUpfile,jdbcType=VARCHAR},
+      e_content = #{record.eContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_email
+    set e_id = #{record.eId,jdbcType=VARCHAR},
+      e_title = #{record.eTitle,jdbcType=VARCHAR},
+      e_receive = #{record.eReceive,jdbcType=VARCHAR},
+      e_sender = #{record.eSender,jdbcType=VARCHAR},
+      e_isread = #{record.eIsread,jdbcType=INTEGER},
+      e_isdel = #{record.eIsdel,jdbcType=INTEGER},
+      e_receivetime = #{record.eReceivetime,jdbcType=TIMESTAMP},
+      e_upfile = #{record.eUpfile,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.project.model.Email" >
+    update t_email
+    <set >
+      <if test="eTitle != null" >
+        e_title = #{eTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="eReceive != null" >
+        e_receive = #{eReceive,jdbcType=VARCHAR},
+      </if>
+      <if test="eSender != null" >
+        e_sender = #{eSender,jdbcType=VARCHAR},
+      </if>
+      <if test="eIsread != null" >
+        e_isread = #{eIsread,jdbcType=INTEGER},
+      </if>
+      <if test="eIsdel != null" >
+        e_isdel = #{eIsdel,jdbcType=INTEGER},
+      </if>
+      <if test="eReceivetime != null" >
+        e_receivetime = #{eReceivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eUpfile != null" >
+        e_upfile = #{eUpfile,jdbcType=VARCHAR},
+      </if>
+      <if test="eContent != null" >
+        e_content = #{eContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where e_id = #{eId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ssm.project.model.Email" >
+    update t_email
+    set e_title = #{eTitle,jdbcType=VARCHAR},
+      e_receive = #{eReceive,jdbcType=VARCHAR},
+      e_sender = #{eSender,jdbcType=VARCHAR},
+      e_isread = #{eIsread,jdbcType=INTEGER},
+      e_isdel = #{eIsdel,jdbcType=INTEGER},
+      e_receivetime = #{eReceivetime,jdbcType=TIMESTAMP},
+      e_upfile = #{eUpfile,jdbcType=VARCHAR},
+      e_content = #{eContent,jdbcType=LONGVARCHAR}
+    where e_id = #{eId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.project.model.Email" >
+    update t_email
+    set e_title = #{eTitle,jdbcType=VARCHAR},
+      e_receive = #{eReceive,jdbcType=VARCHAR},
+      e_sender = #{eSender,jdbcType=VARCHAR},
+      e_isread = #{eIsread,jdbcType=INTEGER},
+      e_isdel = #{eIsdel,jdbcType=INTEGER},
+      e_receivetime = #{eReceivetime,jdbcType=TIMESTAMP},
+      e_upfile = #{eUpfile,jdbcType=VARCHAR}
+    where e_id = #{eId,jdbcType=VARCHAR}
+  </update>
+</mapper>
